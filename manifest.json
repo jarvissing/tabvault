@@ -3,7 +3,7 @@
   "name": "TabVault — Zero-Data-Loss Tab Manager",
   "short_name": "TabVault",
   "version": "1.0.0",
-  "description": "Privacy-first, zero-data-loss tab manager. Reclaim 95% of memory with automated Google Drive backup and 1-click Notion/Markdown exports.",
+  "description": "Zero-data-loss tab manager. Free memory with automated Google Drive backup, session tags, and 1-click Notion/Markdown exports.",
   "permissions": [
     "tabs",
     "storage",

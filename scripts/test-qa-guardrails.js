@@ -65,6 +65,12 @@ runTest('Manifest', 'All defined icons exist on disk with valid file size', () =
   }
 });
 
+runTest('Manifest', 'Description is 132 characters or fewer for Chrome Web Store compliance', () => {
+  const manifest = JSON.parse(fs.readFileSync(path.join(rootDir, 'manifest.json'), 'utf8'));
+  assert.ok(manifest.description, 'Manifest must have a description');
+  assert.ok(manifest.description.length <= 132, `Manifest description exceeds 132 chars: ${manifest.description.length}`);
+});
+
 // ---------------------------------------------------------------------------
 // 2. INPUT SANITIZATION & ANTI-XSS GUARDRAILS
 // ---------------------------------------------------------------------------
