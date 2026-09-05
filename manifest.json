@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "TabVault — Zero-Data-Loss Tab Manager",
   "short_name": "TabVault",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Zero-data-loss tab manager. Free memory with automated Google Drive backup, session tags, and 1-click Notion/Markdown exports.",
   "permissions": [
     "tabs",
@@ -10,7 +10,6 @@
     "contextMenus",
     "identity",
     "alarms",
-    "downloads",
     "unlimitedStorage"
   ],
   "host_permissions": [

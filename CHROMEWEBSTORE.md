@@ -78,7 +78,6 @@ English
 | `contextMenus` | permissions | Required to add right-click context menu options to send individual tabs or all window tabs directly to TabVault. |
 | `identity` | permissions | Required to obtain an OAuth token for the user's personal Google Drive account to perform zero-cost automated cloud backups. |
 | `alarms` | permissions | Required to trigger the periodic 24-hour background cloud backup schedule and crash recovery heartbeat. |
-| `downloads` | permissions | Required to allow users to export and download tab sessions as HTML Bookmarks (.html), CSV (.csv), Markdown (.md), or JSON (.json) backup files. |
 | `unlimitedStorage` | permissions | Required to ensure users with thousands of saved tabs never experience data truncation or local storage quota exhaustion. |
 | `https://www.googleapis.com/*` | host_permissions | Required exclusively to transmit backup snapshot JSON files directly between the browser and the user's private Google Drive API. |
 

@@ -8,7 +8,8 @@ const { execSync } = require('child_process');
 
 const rootDir = path.resolve(__dirname, '..');
 const distDir = path.join(rootDir, 'dist');
-const zipName = 'tabvault-v1.0.0.zip';
+const manifest = JSON.parse(fs.readFileSync(path.join(rootDir, 'manifest.json'), 'utf8'));
+const zipName = `tabvault-v${manifest.version}.zip`;
 const zipPath = path.join(distDir, zipName);
 
 // Ensure dist directory exists

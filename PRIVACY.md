@@ -36,7 +36,6 @@ If you choose to enable Google Drive automated cloud backup:
 - **`storage`** & **`unlimitedStorage`**: Used to store your saved tab sessions and user preferences on your computer without running into arbitrary size limits.
 - **`identity`**: Used solely to connect to your personal Google Drive account if you opt into cloud backup.
 - **`alarms`**: Used to schedule the optional 24-hour background backup and staging checks.
-- **`downloads`**: Used when you click to download an HTML Bookmarks (.html), CSV (.csv), Markdown (.md), or JSON (.json) backup file to your computer.
 - **`contextMenus`**: Used to provide convenient right-click browser menu options to save the active tab or collapse window tabs directly to TabVault.
 - **`https://www.googleapis.com/*`**: Used exclusively to communicate with the official Google Drive REST API to upload and list your backup snapshots.
 

@@ -32,7 +32,7 @@ test('manifest.json conforms to Manifest V3 specification', () => {
   assert.ok(manifest.version, 'Must have a version');
   assert.ok(Array.isArray(manifest.permissions), 'Permissions must be array');
 
-  const requiredPerms = ['tabs', 'storage', 'identity', 'alarms', 'downloads', 'unlimitedStorage'];
+  const requiredPerms = ['tabs', 'storage', 'identity', 'alarms', 'unlimitedStorage'];
   for (const perm of requiredPerms) {
     assert.ok(manifest.permissions.includes(perm), `Missing required permission: ${perm}`);
   }
@@ -250,7 +250,8 @@ test('Memory pressure threshold calculation identifies tab overload correctly', 
 
 // 8. Firefox Add-ons Package Verification
 test('Firefox bundle exists and contains valid gecko ID in manifest', () => {
-  const ffZip = path.join(rootDir, 'dist', 'tabvault-firefox-v1.0.0.zip');
+  const manifest = JSON.parse(fs.readFileSync(path.join(rootDir, 'manifest.json'), 'utf8'));
+  const ffZip = path.join(rootDir, 'dist', `tabvault-firefox-v${manifest.version}.zip`);
   assert.ok(fs.existsSync(ffZip), 'Firefox distribution zip exists');
   const stats = fs.statSync(ffZip);
   assert.ok(stats.size > 10000, 'Firefox distribution zip has valid non-zero size');

@@ -37,12 +37,13 @@ runTest('Manifest', 'Manifest version is strictly 3', () => {
   assert.strictEqual(manifest.manifest_version, 3);
 });
 
-runTest('Manifest', 'Contains all required permissions including contextMenus and unlimitedStorage', () => {
+runTest('Manifest', 'Contains only actively used permissions (no unused downloads permission)', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(rootDir, 'manifest.json'), 'utf8'));
-  const required = ['tabs', 'storage', 'contextMenus', 'identity', 'alarms', 'downloads', 'unlimitedStorage'];
+  const required = ['tabs', 'storage', 'contextMenus', 'identity', 'alarms', 'unlimitedStorage'];
   for (const p of required) {
     assert.ok(manifest.permissions.includes(p), `Missing required permission: ${p}`);
   }
+  assert.ok(!manifest.permissions.includes('downloads'), 'downloads permission must not be requested as it is unused');
 });
 
 runTest('Manifest', 'Action does not declare default_popup (allows onClicked to fire)', () => {
@@ -421,8 +422,9 @@ https://developer.mozilla.org/en-US/ | MDN Web Docs
     assert.ok(script.includes('tabvault@extension'));
   });
 
-  runTest('Firefox Build', 'dist/tabvault-firefox-v1.0.0.zip bundle exists and is valid', () => {
-    const zipPath = path.join(rootDir, 'dist', 'tabvault-firefox-v1.0.0.zip');
+  runTest('Firefox Build', 'Firefox bundle exists and is valid in dist/', () => {
+    const manifest = JSON.parse(fs.readFileSync(path.join(rootDir, 'manifest.json'), 'utf8'));
+    const zipPath = path.join(rootDir, 'dist', `tabvault-firefox-v${manifest.version}.zip`);
     assert.ok(fs.existsSync(zipPath), 'Firefox release zip exists in dist directory');
     assert.ok(fs.statSync(zipPath).size > 10000, 'Firefox release zip is non-trivial size');
   });
