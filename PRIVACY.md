@@ -55,4 +55,4 @@ Because TabVault does not process, store, or transmit any personal data on exter
 
 If you have questions regarding this Privacy Policy, please contact:
 - **Email:** privacy@tabvault.dev
-- **GitHub:** https://github.com/tabvault/tabvault
+- **GitHub:** https://github.com/jarvissing/tabvault

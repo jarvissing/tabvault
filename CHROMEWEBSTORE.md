@@ -114,7 +114,7 @@ TabVault does not transmit any user data, URLs, or browsing activity to any deve
 ## Privacy Policy
 
 **Privacy Policy URL** [REQUIRED]
-`https://github.com/tabvault/tabvault/blob/main/PRIVACY.md`
+`https://github.com/jarvissing/tabvault/blob/main/PRIVACY.md`
 
 ---
 
