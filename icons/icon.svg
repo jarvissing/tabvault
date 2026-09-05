@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E0E7FF"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <!-- Base Tile -->
+  <rect x="2" y="2" width="124" height="124" rx="28" fill="url(#bgGrad)" stroke="#818CF8" stroke-width="2"/>
+  
+  <!-- Stacked Tab Preview -->
+  <rect x="36" y="24" width="56" height="14" rx="5" fill="#C7D2FE" opacity="0.65"/>
+  <rect x="28" y="34" width="72" height="15" rx="5" fill="#E0E7FF" opacity="0.85"/>
+  
+  <!-- Vault Shield -->
+  <g filter="url(#shadow)">
+    <path d="M34 46 C 34 46, 64 42, 64 42 C 64 42, 94 46, 94 46 L 94 76 C 94 94, 64 106, 64 106 C 64 106, 34 94, 34 76 Z" 
+          fill="url(#shieldGrad)" stroke="#C7D2FE" stroke-width="1.5"/>
+    <!-- Keyhole -->
+    <circle cx="64" cy="68" r="7" fill="#4338CA"/>
+    <polygon points="61,68 67,68 69,82 59,82" fill="#4338CA"/>
+  </g>
+</svg>

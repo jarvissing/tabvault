@@ -1,0 +1,60 @@
+{
+  "manifest_version": 3,
+  "name": "TabVault — Zero-Data-Loss Tab Manager",
+  "short_name": "TabVault",
+  "version": "1.0.0",
+  "description": "Privacy-first, zero-data-loss tab manager. Reclaim 95% of memory with automated Google Drive backup and 1-click Notion/Markdown exports.",
+  "permissions": [
+    "tabs",
+    "storage",
+    "contextMenus",
+    "identity",
+    "alarms",
+    "downloads",
+    "unlimitedStorage"
+  ],
+  "host_permissions": [
+    "https://www.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "TabVault — Click to open or collapse",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "commands": {
+    "collapse-current-window": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+K",
+        "mac": "Command+Shift+K"
+      },
+      "description": "Collapse all tabs in active window into TabVault"
+    },
+    "send-current-tab": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Send active tab to TabVault"
+    },
+    "open-dashboard": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      },
+      "description": "Open TabVault Dashboard"
+    }
+  }
+}
+

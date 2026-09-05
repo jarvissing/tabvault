@@ -1,0 +1,19 @@
+﻿# Dependencies
+node_modules/
+
+# Build & packaging artifacts
+dist/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor and IDE directories
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local logs
+*.log

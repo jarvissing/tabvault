@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TabVault — Zero-Data-Loss Tab Manager</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="icons/icon-48.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="icons/icon-128.png">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <!-- Header App Bar -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-section">
+        <img src="icons/icon-48.png" alt="TabVault Logo" class="brand-logo" width="36" height="36">
+        <div class="brand-titles">
+          <h1 class="brand-name">TabVault</h1>
+          <span class="brand-tagline">Zero-Data-Loss Tab Manager</span>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Bar -->
+      <div class="metrics-bar" id="metrics-bar">
+        <div class="metric-card" title="Total saved tabs across all sessions">
+          <span class="metric-label">Saved Tabs</span>
+          <span class="metric-value" id="stat-tabs">0</span>
+        </div>
+        <div class="metric-card" title="Total organized session groups">
+          <span class="metric-label">Groups</span>
+          <span class="metric-value" id="stat-groups">0</span>
+        </div>
+        <div class="metric-card" title="Estimated system memory (RAM) reclaimed">
+          <span class="metric-label">RAM Freed</span>
+          <span class="metric-value highlight" id="stat-ram">0 MB</span>
+        </div>
+        <div class="metric-card cloud-card" id="cloud-status-card" title="Google Drive automated cloud backup status">
+          <span class="metric-label">Cloud Backup</span>
+          <span class="metric-value cloud-status" id="stat-cloud">
+            <span class="status-dot disconnected" id="cloud-dot"></span>
+            <span id="cloud-status-text">Not Connected</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Primary Action Controls -->
+      <div class="header-actions">
+        <button id="btn-collapse-window" class="btn btn-primary" title="Collapse all tabs in current window (Ctrl+Shift+K)" aria-label="Collapse all tabs in current window">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 14 10 14 10 20"></polyline>
+            <polyline points="20 10 14 10 14 4"></polyline>
+            <line x1="14" y1="10" x2="21" y2="3"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+          <span>Collapse Window</span>
+        </button>
+
+        <button id="btn-new-group" class="btn btn-secondary" title="Create a new empty session group" aria-label="Create a new empty session group">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>New Group</span>
+        </button>
+
+        <button id="btn-import-export" class="btn btn-ghost" title="OneTab import, Notion/Markdown & JSON export" aria-label="Open import and export options">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <span>Import / Export</span>
+        </button>
+
+        <button id="btn-cloud-sync" class="btn btn-ghost" title="Google Drive Cloud Backup Settings" aria-label="Open Google Drive Cloud Backup Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+          </svg>
+          <span>Drive Sync</span>
+        </button>
+
+        <button id="btn-settings" class="btn btn-icon" title="Extension Settings" aria-label="Open Extension Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Crash Recovery Alert Banner (Conditional) -->
+  <div id="crash-banner" class="crash-banner hidden" role="alert">
+    <div class="crash-banner-content">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+      </svg>
+      <span><strong>Crash Recovery:</strong> TabVault recovered unsaved tabs from your previous browser session.</span>
+    </div>
+    <div class="crash-banner-actions">
+      <button id="btn-crash-save" class="btn btn-sm btn-primary">Save to Vault</button>
+      <button id="btn-crash-dismiss" class="btn btn-sm btn-ghost">Dismiss</button>
+    </div>
+  </div>
+
+  <!-- Search & Toolbar -->
+  <div class="search-toolbar-container">
+    <div class="search-box">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="search" id="search-input" name="search-query" placeholder="Search saved tabs, titles, or domains... (Press '/' to focus)" aria-label="Search saved tabs, titles, or domains" autocomplete="off">
+      <button id="search-clear" class="btn-clear hidden" title="Clear search" aria-label="Clear search">✕</button>
+    </div>
+
+    <div class="toolbar-filters">
+      <div class="filter-group">
+        <label for="sort-select" id="lbl-sort">Sort:</label>
+        <select id="sort-select" name="sort" aria-labelledby="lbl-sort" class="select-dropdown">
+          <option value="newest">Date: Newest First</option>
+          <option value="oldest">Date: Oldest First</option>
+          <option value="count">Tab Count</option>
+          <option value="title">Title (A-Z)</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filter-select" id="lbl-filter">Show:</label>
+        <select id="filter-select" name="filter" aria-labelledby="lbl-filter" class="select-dropdown">
+          <option value="all">All Groups</option>
+          <option value="pinned">Pinned Only</option>
+          <option value="locked">Locked Only</option>
+        </select>
+      </div>
+
+      <button id="btn-dedup-all" class="btn btn-sm btn-outline" title="Scan and merge duplicate tabs across sessions" aria-label="Scan and merge duplicate tabs across sessions">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+          <polyline points="2 17 12 22 22 17"></polyline>
+          <polyline points="2 12 12 17 22 12"></polyline>
+        </svg>
+        <span>Clean Duplicates</span>
+      </button>
+    </div>
+
+    <!-- Category & Tag Filter Bar -->
+    <div class="tag-filter-bar" id="tag-filter-bar" role="group" aria-label="Filter sessions by tag">
+      <span class="tag-filter-label">Tags:</span>
+      <div class="tag-chips-container" id="tag-chips-container">
+        <!-- Dynamically rendered by dashboard.js: All, Work, Dev, etc. -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Sessions Workspace -->
+  <main class="main-container">
+    <div id="sessions-container" class="sessions-container">
+      <!-- Session cards dynamically rendered by dashboard.js -->
+    </div>
+
+    <!-- Empty State Container -->
+    <div id="empty-state" class="empty-state hidden">
+      <div class="empty-icon-wrap">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
+        </svg>
+      </div>
+      <h2>Your Vault is Empty</h2>
+      <p>Free up browser memory and eliminate tab clutter. Saved tabs are protected with zero-data-loss local persistence and Google Drive backup.</p>
+      
+      <div class="empty-action-buttons">
+        <button id="btn-empty-collapse" class="btn btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4 14 10 14 10 20"></polyline>
+            <polyline points="20 10 14 10 14 4"></polyline>
+            <line x1="14" y1="10" x2="21" y2="3"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+          Collapse Open Tabs Now
+        </button>
+        <button id="btn-empty-import" class="btn btn-secondary">
+          Import from OneTab
+        </button>
+      </div>
+
+      <div class="shortcuts-guide">
+        <h3>Keyboard Shortcuts</h3>
+        <ul>
+          <li><kbd>Ctrl+Shift+K</kbd> / <kbd>Cmd+Shift+K</kbd> — Collapse open tabs in current window</li>
+          <li><kbd>Ctrl+Shift+Y</kbd> / <kbd>Cmd+Shift+Y</kbd> — Send active tab to TabVault</li>
+          <li><kbd>Ctrl+Shift+L</kbd> / <kbd>Cmd+Shift+L</kbd> — Open TabVault Dashboard</li>
+          <li><kbd>/</kbd> — Jump to search bar</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <!-- Non-intrusive Floating Undo Toast -->
+  <div id="undo-toast" class="undo-toast hidden" role="status" aria-live="polite">
+    <div class="toast-body">
+      <span id="toast-message">Item deleted</span>
+      <button id="toast-undo-btn" class="toast-undo">Undo</button>
+    </div>
+    <div class="toast-progress">
+      <div id="toast-progress-bar" class="toast-progress-bar"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: Import / Export Hub -->
+  <div id="modal-import-export" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title-import-export">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-title-import-export">Data Portability & Migration</h2>
+        <button class="modal-close" data-close-modal="modal-import-export" aria-label="Close modal">&times;</button>
+      </div>
+      
+      <div class="modal-tabs" role="tablist">
+        <button class="modal-tab active" data-tab="tab-onetab" role="tab" aria-controls="tab-onetab">OneTab Import</button>
+        <button class="modal-tab" data-tab="tab-export-docs" role="tab" aria-controls="tab-export-docs">Notion / Markdown</button>
+        <button class="modal-tab" data-tab="tab-json" role="tab" aria-controls="tab-json">JSON Backup & Restore</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- 1. OneTab Import -->
+        <div id="tab-onetab" class="tab-pane active" role="tabpanel">
+          <p class="tab-desc">Paste raw export text from OneTab. URLs and titles will be parsed automatically into TabVault sessions. Blank lines create separate groups.</p>
+          <label for="onetab-paste-area" class="sr-only">OneTab Raw Export Text</label>
+          <textarea id="onetab-paste-area" name="onetab-paste" class="code-textarea" rows="8" placeholder="https://github.com | GitHub: Where the world builds software&#10;https://nytimes.com | The New York Times&#10;&#10;https://news.ycombinator.com | Hacker News" aria-label="OneTab Raw Export Text"></textarea>
+          <div class="tab-pane-actions">
+            <button id="btn-parse-onetab" class="btn btn-primary">Import into TabVault</button>
+            <span id="onetab-import-status" class="status-msg"></span>
+          </div>
+        </div>
+
+        <!-- 2. Notion & Markdown Export -->
+        <div id="tab-export-docs" class="tab-pane" role="tabpanel">
+          <p class="tab-desc">Export sessions to clean Markdown or Notion-ready rich text. Perfect for Obsidian, Notion pages, or GitHub readmes.</p>
+          <div class="export-options">
+            <div class="form-group-inline">
+              <label for="export-format-select" id="lbl-export-format">Format:</label>
+              <select id="export-format-select" name="export-format" aria-labelledby="lbl-export-format" class="select-dropdown">
+                <option value="markdown-list">Markdown Bullet List (- [Title](URL))</option>
+                <option value="markdown-table">Markdown Table (| Title | Domain | URL |)</option>
+                <option value="notion-links">Notion Plain Links</option>
+                <option value="bookmarks-html">HTML Bookmarks (.html for browser import)</option>
+                <option value="csv">CSV Spreadsheet (.csv)</option>
+              </select>
+            </div>
+            <div class="form-group-inline">
+              <label for="export-scope-select" id="lbl-export-scope">Scope:</label>
+              <select id="export-scope-select" name="export-scope" aria-labelledby="lbl-export-scope" class="select-dropdown">
+                <option value="all">All Sessions</option>
+              </select>
+            </div>
+          </div>
+          <label for="export-preview-area" class="sr-only">Export Preview</label>
+          <textarea id="export-preview-area" name="export-preview" class="code-textarea" rows="8" readonly aria-label="Export preview content"></textarea>
+          <div class="tab-pane-actions">
+            <button id="btn-copy-export" class="btn btn-primary">Copy to Clipboard</button>
+            <button id="btn-download-export" class="btn btn-secondary">Download File</button>
+            <span id="export-status-msg" class="status-msg"></span>
+          </div>
+        </div>
+
+        <!-- 3. JSON Backup & Restore -->
+        <div id="tab-json" class="tab-pane" role="tabpanel">
+          <p class="tab-desc">Export or import a complete, lossless backup of all your sessions, timestamps, and settings.</p>
+          <div class="json-actions-grid">
+            <div class="json-action-box">
+              <h3>Full JSON Export</h3>
+              <p>Download a structured JSON file containing all saved sessions.</p>
+              <button id="btn-download-json" class="btn btn-secondary">Download Backup (.json)</button>
+            </div>
+            <div class="json-action-box">
+              <h3>Restore from JSON</h3>
+              <p>Upload a TabVault JSON backup file.</p>
+              <label for="json-file-input" class="sr-only">Choose JSON file to restore</label>
+              <input type="file" id="json-file-input" name="json-backup-file" accept=".json" class="file-input" aria-label="Choose JSON file to restore">
+              <div class="restore-mode-picker" role="radiogroup" aria-label="JSON Restore Conflict Strategy">
+                <label for="restore-mode-merge"><input type="radio" id="restore-mode-merge" name="json-restore-mode" value="merge" checked> Merge with existing</label>
+                <label for="restore-mode-replace"><input type="radio" id="restore-mode-replace" name="json-restore-mode" value="replace"> Replace all</label>
+              </div>
+              <button id="btn-trigger-json-restore" class="btn btn-primary">Upload & Restore</button>
+              <span id="json-status-msg" class="status-msg"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Cloud Sync & Google Drive -->
+  <div id="modal-cloud-sync" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title-cloud-sync">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-title-cloud-sync">Google Drive Cloud Sync</h2>
+        <button class="modal-close" data-close-modal="modal-cloud-sync" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="cloud-info-card">
+          <div class="cloud-info-header">
+            <div class="drive-icon-badge">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2">
+                <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3>Automated Zero-Data-Loss Protection</h3>
+              <p>Backups are stored directly inside your own private Google Drive account. Zero developer servers, zero tracking, 100% privacy.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="setting-item">
+            <div class="setting-info" id="info-auto-sync">
+              <span class="setting-title">Automated Background Sync</span>
+              <span class="setting-subtitle">Automatically backup sessions to Google Drive every 24 hours and after session collapses</span>
+            </div>
+            <label class="toggle-switch" for="toggle-auto-sync">
+              <input type="checkbox" id="toggle-auto-sync" name="auto-sync" aria-labelledby="info-auto-sync">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info" id="info-sync-target">
+              <span class="setting-title">Drive Storage Location</span>
+              <span class="setting-subtitle">Select where snapshots are stored in Google Drive</span>
+            </div>
+            <select id="select-sync-target" name="sync-target" aria-labelledby="info-sync-target" class="select-dropdown">
+              <option value="appDataFolder">Private App Data Folder (Hidden, zero clutter)</option>
+              <option value="TabVault_Backups">"TabVault_Backups" Folder (Visible in Drive)</option>
+            </select>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info" id="info-custom-client-id">
+              <span class="setting-title">Google OAuth Client ID (Optional)</span>
+              <span class="setting-subtitle">Override Client ID for custom Google Cloud projects</span>
+            </div>
+            <input type="text" id="input-custom-client-id" name="custom-client-id" aria-labelledby="info-custom-client-id" class="text-input" placeholder="YOUR_CLIENT_ID.apps.googleusercontent.com" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="cloud-action-row">
+          <button id="btn-sync-now" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+            <span>Backup to Drive Now</span>
+          </button>
+          <button id="btn-list-cloud-backups" class="btn btn-secondary">
+            <span>List Cloud Backups</span>
+          </button>
+          <span id="cloud-modal-status" class="status-msg"></span>
+        </div>
+
+        <div id="cloud-backups-container" class="cloud-backups-container hidden">
+          <h4>Available Cloud Snapshots</h4>
+          <ul id="cloud-backups-list" class="cloud-backups-list">
+            <!-- Populated dynamically -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Settings -->
+  <div id="modal-settings" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title-settings">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-title-settings">TabVault Settings</h2>
+        <button class="modal-close" data-close-modal="modal-settings" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-group">
+          <h3>General Behavior</h3>
+          
+          <div class="setting-item">
+            <div class="setting-info" id="info-click-action">
+              <span class="setting-title">Extension Icon Click Action</span>
+              <span class="setting-subtitle">Choose what happens when clicking the TabVault icon in the toolbar</span>
+            </div>
+            <select id="setting-click-action" name="click-action" aria-labelledby="info-click-action" class="select-dropdown">
+              <option value="collapse_window">Collapse Current Window Tabs</option>
+              <option value="open_dashboard">Open TabVault Dashboard</option>
+            </select>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info" id="info-theme">
+              <span class="setting-title">Theme</span>
+              <span class="setting-subtitle">Interface appearance</span>
+            </div>
+            <select id="setting-theme" name="theme" aria-labelledby="info-theme" class="select-dropdown">
+              <option value="dark">Dark Theme (Default)</option>
+              <option value="light">Light Theme</option>
+              <option value="system">Follow System Theme</option>
+            </select>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info" id="info-new-window">
+              <span class="setting-title">Open Restored Tabs in New Window</span>
+              <span class="setting-subtitle">When clicking "Restore All", launch a clean new window</span>
+            </div>
+            <label class="toggle-switch" for="toggle-new-window">
+              <input type="checkbox" id="toggle-new-window" name="new-window" aria-labelledby="info-new-window">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info" id="info-remove-restore">
+              <span class="setting-title">Remove Tabs from Vault on Restore</span>
+              <span class="setting-subtitle">Single tab opens and removes itself from the vault</span>
+            </div>
+            <label class="toggle-switch" for="toggle-remove-restore">
+              <input type="checkbox" id="toggle-remove-restore" name="remove-restore" aria-labelledby="info-remove-restore">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info" id="info-preserve-pinned">
+              <span class="setting-title">Preserve Pinned Tabs</span>
+              <span class="setting-subtitle">Don't close pinned tabs when collapsing windows</span>
+            </div>
+            <label class="toggle-switch" for="toggle-preserve-pinned">
+              <input type="checkbox" id="toggle-preserve-pinned" name="preserve-pinned" aria-labelledby="info-preserve-pinned">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info" id="info-dedup">
+              <span class="setting-title">Auto-Ignore Duplicate Tabs</span>
+              <span class="setting-subtitle">Skip duplicate URLs when collapsing tabs</span>
+            </div>
+            <label class="toggle-switch" for="toggle-dedup">
+              <input type="checkbox" id="toggle-dedup" name="dedup" aria-labelledby="info-dedup">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info" id="info-tab-alert">
+              <span class="setting-title">Tab Overload & Memory Alert</span>
+              <span class="setting-subtitle">Highlight toolbar icon badge when open tabs exceed memory limit</span>
+            </div>
+            <label class="toggle-switch" for="toggle-tab-alert">
+              <input type="checkbox" id="toggle-tab-alert" name="tab-alert" aria-labelledby="info-tab-alert">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item" id="setting-row-threshold">
+            <div class="setting-info" id="info-tab-limit">
+              <span class="setting-title">Memory Alert Tab Threshold</span>
+              <span class="setting-subtitle">Number of open tabs in a window before alerting (default: 15)</span>
+            </div>
+            <input type="number" id="input-tab-limit" name="tab-limit" min="5" max="100" value="15" aria-labelledby="info-tab-limit" class="number-input">
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Storage Health Monitor</h3>
+          <div class="storage-health-box">
+            <div class="storage-metric-row">
+              <span>Local Storage Used:</span>
+              <strong id="storage-usage-val">0 KB</strong>
+            </div>
+            <div class="storage-bar-track">
+              <div id="storage-bar-fill" class="storage-bar-fill" style="width: 2%;"></div>
+            </div>
+            <p class="storage-hint">TabVault uses Chrome's <code>unlimitedStorage</code> permission so your tabs are never lost due to size limits.</p>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Danger Zone</h3>
+          <div class="danger-box">
+            <button id="btn-clear-all-data" class="btn btn-danger">Clear All Saved Sessions</button>
+            <span class="danger-hint">Warning: Deletes all saved tabs permanently. We recommend exporting a JSON backup first.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Add Custom URL to Group -->
+  <div id="modal-add-tab" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title-add-tab">
+    <div class="modal-card modal-sm">
+      <div class="modal-header">
+        <h2 id="modal-title-add-tab">Add Tab to Group</h2>
+        <button class="modal-close" data-close-modal="modal-add-tab" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-add-tab" onsubmit="return false;">
+          <input type="hidden" id="add-tab-session-id" name="session-id">
+          <div class="form-group">
+            <label for="add-tab-url" id="lbl-add-tab-url">URL</label>
+            <input type="url" id="add-tab-url" name="tab-url" aria-labelledby="lbl-add-tab-url" class="text-input" placeholder="https://example.com" required autocomplete="url">
+          </div>
+          <div class="form-group">
+            <label for="add-tab-title" id="lbl-add-tab-title">Title (Optional)</label>
+            <input type="text" id="add-tab-title" name="tab-title" aria-labelledby="lbl-add-tab-title" class="text-input" placeholder="Page Title" autocomplete="off">
+          </div>
+          <div class="modal-actions">
+            <button type="submit" id="btn-confirm-add-tab" class="btn btn-primary">Add Tab</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>
