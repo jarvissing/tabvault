@@ -1526,4 +1526,10 @@ input:checked + .slider:before {
   color: #F59E0B;
 }
 
+.btn-star:hover {
+  background-color: rgba(99, 102, 241, 0.15);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
 
