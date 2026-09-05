@@ -3,6 +3,7 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Manifest V3](https://img.shields.io/badge/Manifest-V3-success.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![Privacy: Zero Tracking](https://img.shields.io/badge/Privacy-Zero_Tracking-emerald.svg)](PRIVACY.md)
+[![Sponsor: GitHub](https://img.shields.io/badge/Sponsor-GitHub_Sponsors-EA4AAA?logo=github)](https://github.com/sponsors/jarvissing)
 
 > **Reclaim up to 95% of browser memory with speed, automated Google Drive cloud backup, and 1-click Notion/Markdown exports.**
 
@@ -127,6 +128,13 @@ To create a clean release ZIP for upload to the Chrome Web Store Developer Dashb
 node scripts/build-zip.js
 ```
 The packaged archive will be generated in `dist/tabvault-v1.0.0.zip`.
+
+## Support & Community
+
+TabVault is 100% free, open-source, and dedicated to zero tracking and complete privacy. If TabVault helps you reclaim memory and keep your workflow clean, consider supporting its maintenance and development:
+
+- 💖 **[Sponsor on GitHub Sponsors](https://github.com/sponsors/jarvissing)**
+- ⭐ **[Star the repository on GitHub](https://github.com/jarvissing/tabvault)** to help others discover it!
 
 ---
 
