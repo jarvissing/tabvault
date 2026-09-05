@@ -1,5 +1,9 @@
 # TabVault — Zero-Data-Loss Tab Manager (Manifest V3)
 
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Manifest V3](https://img.shields.io/badge/Manifest-V3-success.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
+[![Privacy: Zero Tracking](https://img.shields.io/badge/Privacy-Zero_Tracking-emerald.svg)](PRIVACY.md)
+
 > **Reclaim up to 95% of browser memory with speed, automated Google Drive cloud backup, and 1-click Notion/Markdown exports.**
 
 ---
@@ -126,6 +130,13 @@ The packaged archive will be generated in `dist/tabvault-v1.0.0.zip`.
 
 ---
 
-## License & Privacy
+## License & Copyright
 
-TabVault is open-source software built for user privacy. No analytics, tracking, or external network requests are made other than optional direct communication between your browser and the official Google Drive API.
+Copyright (C) 2026 jarvissing. All rights reserved.
+
+TabVault is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**. See the [LICENSE](LICENSE) file for the full text.
+
+Under this license:
+- You are free to run, study, and modify the software.
+- **Copyleft Enforcement:** Any modified versions or forks distributed to users must also be licensed under the exact same AGPLv3 license and disclose their full source code publicly. Closed-source or proprietary forks are strictly prohibited.
+- **Trademark & Brand Protection:** The name "TabVault", logos, and custom branding assets remain the exclusive trademark of the author and may not be used without written authorization.
