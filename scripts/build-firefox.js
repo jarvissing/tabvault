@@ -37,7 +37,7 @@ const firefoxManifest = {
   ...baseManifest,
   browser_specific_settings: {
     gecko: {
-      id: 'tabvault@extension',
+      id: 'tabvault@jarvissing.github.io',
       strict_min_version: '109.0'
     }
   },

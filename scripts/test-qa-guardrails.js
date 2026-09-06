@@ -419,7 +419,7 @@ https://developer.mozilla.org/en-US/ | MDN Web Docs
   runTest('Firefox Build', 'scripts/build-firefox.js exists and is configured for Firefox MV3 gecko ID', () => {
     const script = fs.readFileSync(path.join(rootDir, 'scripts', 'build-firefox.js'), 'utf8');
     assert.ok(script.includes('browser_specific_settings'));
-    assert.ok(script.includes('tabvault@extension'));
+    assert.ok(script.includes('tabvault@jarvissing.github.io'));
   });
 
   runTest('Firefox Build', 'Firefox bundle exists and is valid in dist/', () => {
