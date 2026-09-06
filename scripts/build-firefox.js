@@ -72,10 +72,12 @@ for (const icon of fs.readdirSync(iconsSrcDir)) {
   fs.copyFileSync(path.join(iconsSrcDir, icon), path.join(iconsDestDir, icon));
 }
 
-// 3. Compress into zip archive using PowerShell Compress-Archive
+// 3. Compress into zip archive using tar.exe (enforces standard POSIX forward slashes for AMO compatibility)
 try {
-  const psCmd = `powershell -NoProfile -Command "Compress-Archive -Path '${tempDir}\\*' -DestinationPath '${zipPath}' -Force"`;
-  execSync(psCmd, { stdio: 'inherit' });
+  const items = fs.readdirSync(tempDir);
+  const itemsArg = items.map(i => `"${i}"`).join(' ');
+  const tarCmd = `tar.exe -a -cf "${zipPath}" -C "${tempDir}" ${itemsArg}`;
+  execSync(tarCmd, { stdio: 'inherit' });
 
   // 4. Clean up temporary staging directory
   fs.rmSync(tempDir, { recursive: true, force: true });

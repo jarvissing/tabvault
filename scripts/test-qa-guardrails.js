@@ -429,6 +429,24 @@ https://developer.mozilla.org/en-US/ | MDN Web Docs
     assert.ok(fs.statSync(zipPath).size > 10000, 'Firefox release zip is non-trivial size');
   });
 
+  runTest('Firefox Build', 'Firefox zip entries strictly enforce POSIX forward slashes (no backslashes)', () => {
+    const manifest = JSON.parse(fs.readFileSync(path.join(rootDir, 'manifest.json'), 'utf8'));
+    const zipPath = path.join(rootDir, 'dist', `tabvault-firefox-v${manifest.version}.zip`);
+    const buf = fs.readFileSync(zipPath);
+    let idx = 0;
+    const names = [];
+    while ((idx = buf.indexOf(Buffer.from([0x50, 0x4b, 0x01, 0x02]), idx)) !== -1) {
+      const fileNameLen = buf.readUInt16LE(idx + 28);
+      const extraLen = buf.readUInt16LE(idx + 30);
+      const commentLen = buf.readUInt16LE(idx + 32);
+      const fileName = buf.toString('utf8', idx + 46, idx + 46 + fileNameLen);
+      names.push(fileName);
+      idx += 46 + fileNameLen + extraLen + commentLen;
+    }
+    const hasBackslash = names.some(n => n.includes('\\'));
+    assert.strictEqual(hasBackslash, false, `Found Windows backslash in zip entry paths: ${names.filter(n => n.includes('\\')).join(', ')}`);
+  });
+
   console.log(`\n====================================================`);
   console.log(`  QA Audit Complete: ${passedTests} / ${totalTests} Guardrail Tests Passed!  `);
   console.log(`====================================================\n`);

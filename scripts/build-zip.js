@@ -45,11 +45,11 @@ for (const item of filesToInclude) {
 console.log('Packaging TabVault Chrome Extension into ZIP bundle...');
 
 try {
-  // Use PowerShell Compress-Archive for native, standard Windows zip creation
-  const fileListArg = filesToInclude.map(f => `'${path.join(rootDir, f)}'`).join(',');
-  const psCmd = `powershell -NoProfile -Command "Compress-Archive -Path ${fileListArg} -DestinationPath '${zipPath}' -Force"`;
+  // Use tar.exe for native, standards-compliant POSIX zip creation (forward slashes)
+  const fileListArg = filesToInclude.map(f => `"${f}"`).join(' ');
+  const tarCmd = `tar.exe -a -cf "${zipPath}" -C "${rootDir}" ${fileListArg}`;
   
-  execSync(psCmd, { stdio: 'inherit' });
+  execSync(tarCmd, { stdio: 'inherit' });
 
   if (fs.existsSync(zipPath)) {
     const stats = fs.statSync(zipPath);
