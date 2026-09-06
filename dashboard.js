@@ -197,7 +197,13 @@ function renderTagFilterBar() {
   // "All" chip
   const allChip = document.createElement('button');
   allChip.className = `tag-chip ${activeTagFilter === 'ALL' ? 'active' : ''}`;
-  allChip.innerHTML = `<span>All</span><span class="tag-chip-count">${sessionsState.length}</span>`;
+  const allLabel = document.createElement('span');
+  allLabel.textContent = 'All';
+  const allCount = document.createElement('span');
+  allCount.className = 'tag-chip-count';
+  allCount.textContent = String(sessionsState.length);
+  allChip.appendChild(allLabel);
+  allChip.appendChild(allCount);
   allChip.addEventListener('click', () => {
     activeTagFilter = 'ALL';
     renderDashboard();
@@ -209,7 +215,13 @@ function renderTagFilterBar() {
   sortedTags.forEach(tag => {
     const chip = document.createElement('button');
     chip.className = `tag-chip ${activeTagFilter === tag ? 'active' : ''}`;
-    chip.innerHTML = `<span>#${tag}</span><span class="tag-chip-count">${tagCounts[tag]}</span>`;
+    const tagLabel = document.createElement('span');
+    tagLabel.textContent = `#${tag}`;
+    const tagCount = document.createElement('span');
+    tagCount.className = 'tag-chip-count';
+    tagCount.textContent = String(tagCounts[tag]);
+    chip.appendChild(tagLabel);
+    chip.appendChild(tagCount);
     chip.addEventListener('click', () => {
       activeTagFilter = activeTagFilter === tag ? 'ALL' : tag;
       renderDashboard();
