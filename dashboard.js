@@ -435,7 +435,11 @@ function createSessionCard(session) {
   pinBtn.className = `btn btn-icon btn-sm ${session.pinned ? 'active' : ''}`;
   pinBtn.title = session.pinned ? 'Unpin Group' : 'Pin Group to Top';
   pinBtn.setAttribute('aria-label', session.pinned ? 'Unpin Group' : 'Pin Group to Top');
-  pinBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="${session.pinned ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
+  pinBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
+  if (session.pinned) {
+    const pinSvg = pinBtn.querySelector('svg');
+    if (pinSvg) pinSvg.setAttribute('fill', 'currentColor');
+  }
   pinBtn.addEventListener('click', async () => {
     const updated = await updateSession(session.id, { pinned: !session.pinned });
     session.pinned = updated.pinned;
@@ -447,9 +451,11 @@ function createSessionCard(session) {
   lockBtn.className = `btn btn-icon btn-sm ${session.locked ? 'active' : ''}`;
   lockBtn.title = session.locked ? 'Locked (Protected from deletion)' : 'Lock Group';
   lockBtn.setAttribute('aria-label', session.locked ? 'Unlock Group' : 'Lock Group');
-  lockBtn.innerHTML = session.locked
-    ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`
-    : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>`;
+  if (session.locked) {
+    lockBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>';
+  } else {
+    lockBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>';
+  }
   lockBtn.addEventListener('click', async () => {
     const updated = await updateSession(session.id, { locked: !session.locked });
     session.locked = updated.locked;

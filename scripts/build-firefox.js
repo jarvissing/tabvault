@@ -38,7 +38,7 @@ const firefoxManifest = {
   browser_specific_settings: {
     gecko: {
       id: 'tabvault@jarvissing.github.io',
-      strict_min_version: '115.0',
+      strict_min_version: '140.0',
       data_collection_permissions: {
         required: ['none']
       }
