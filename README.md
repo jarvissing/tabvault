@@ -1,6 +1,7 @@
 # TabVault — Zero-Data-Loss Tab Manager (Manifest V3)
 
 [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Install_TabVault-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/fhmbeamnofaciafhdbipnnihdcleilfe)
+[![Firefox Add-on](https://img.shields.io/badge/Firefox_Add--on-Install_TabVault-FF7139?logo=firefox-browser&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/tabvault-zero-data-loss/)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Manifest V3](https://img.shields.io/badge/Manifest-V3-success.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![Privacy: Zero Tracking](https://img.shields.io/badge/Privacy-Zero_Tracking-emerald.svg)](PRIVACY.md)
@@ -64,10 +65,12 @@ OneTab has over 2,000,000 users, but millions have suffered sudden data loss due
 
 ## Installation & Getting Started
 
-### 🚀 Install from Chrome Web Store (Recommended)
+### 🚀 Official Store Installation (Recommended)
 
-Get TabVault directly from the official store for Chrome, Brave, Edge, Opera, and Arc:  
-👉 **[Install TabVault from Chrome Web Store](https://chromewebstore.google.com/detail/fhmbeamnofaciafhdbipnnihdcleilfe)**
+* **Google Chrome, Brave, Edge, Opera, & Arc**:  
+  👉 **[Install TabVault from Chrome Web Store](https://chromewebstore.google.com/detail/fhmbeamnofaciafhdbipnnihdcleilfe)**
+* **Mozilla Firefox, LibreWolf, & Waterfox**:  
+  👉 **[Install TabVault from Firefox Add-ons (AMO)](https://addons.mozilla.org/en-US/firefox/addon/tabvault-zero-data-loss/)**
 
 ---
 
