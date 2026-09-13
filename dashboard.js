@@ -604,16 +604,20 @@ function createTabItem(session, tab, index) {
     tabMain.appendChild(createFallbackIcon(tab.domain));
   }
 
-  // Title
-  const titleSpan = document.createElement('span');
-  titleSpan.className = 'tab-title';
-  titleSpan.textContent = tab.title;
-  titleSpan.title = `${tab.title}\n${tab.url}`;
-  titleSpan.addEventListener('click', async (e) => {
-    e.preventDefault();
-    await restoreSingleTab(session, tab);
+  // Title Link (real anchor to support middle-click, right-click context menu, and native link drag)
+  const titleLink = document.createElement('a');
+  titleLink.className = 'tab-title';
+  titleLink.href = tab.url;
+  titleLink.textContent = tab.title;
+  titleLink.title = `${tab.title}\n${tab.url}`;
+  titleLink.addEventListener('click', async (e) => {
+    // If left-click without modifier keys, use TabVault restore logic
+    if (e.button === 0 && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+      e.preventDefault();
+      await restoreSingleTab(session, tab);
+    }
   });
-  tabMain.appendChild(titleSpan);
+  tabMain.appendChild(titleLink);
 
   // Domain Badge
   const domainBadge = document.createElement('span');

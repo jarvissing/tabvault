@@ -82,7 +82,8 @@ export async function checkTabMemoryPressure() {
     }
 
     const tabs = await chrome.tabs.query({ currentWindow: true });
-    const count = tabs ? tabs.length : 0;
+    const visibleTabs = tabs ? tabs.filter(t => !t.hidden) : [];
+    const count = visibleTabs.length;
     const limit = Number(settings.tabThresholdLimit) || 15;
 
     if (count >= limit) {
@@ -144,11 +145,12 @@ async function collapseActiveWindow(targetWindowId = null) {
 
     const settings = await getSettings();
 
-    // Filter tabs to save (ignoring browser internal tabs and pinned tabs if configured)
+    // Filter tabs to save (ignoring browser internal tabs, pinned tabs if configured, and hidden tabs from inactive workspaces)
     const tabsToSave = allTabs.filter(tab => {
       const url = tab.url || tab.pendingUrl;
       if (!isSavableUrl(url)) return false;
       if (settings.preservePinnedTabs && tab.pinned) return false;
+      if (tab.hidden) return false; // Preserve inactive Vivaldi workspaces and collapsed tab groups
       return true;
     });
 

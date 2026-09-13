@@ -791,6 +791,7 @@ body {
 .tab-title {
   font-size: 0.875rem;
   color: var(--text-primary);
+  text-decoration: none;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
